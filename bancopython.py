@@ -1,4 +1,8 @@
 numero_conta = 0
+saldo = 0
+deposito = 0
+saque = 0
+
 
 
 def cadastro_usuario():
@@ -13,8 +17,6 @@ def cadastro_usuario():
                 input("Digite a UF: ")]
     return [nome, data_nascimento, cpf, endereco]
 
-
-
 def criacao_conta():
     global numero_conta
     numero_conta += 1
@@ -22,16 +24,36 @@ def criacao_conta():
 
     return [numero_conta, agencia]
 
+def saldo_conta(saque):
+    global saldo
+    if saque <= saldo:
+        saldo -= saque 
+        print(f'Saque de R${saque} foi realizado com sucesso. Novo saldo: R${saldo}')
+    else:
+        print("Saldo insuficiente!")
+        return
+
+def deposito_conta (deposito):
+    global saldo
+    saldo += deposito
+    print(f'Deposito de R${deposito} foi realizado com sucesso. Novo saldo: R${saldo}')
+    
+
+
+
 
 usuario = None
 conta = None
 
+
+
 #MENU
 while True:
 
-    print("------------- Menu Bancário --------------"
+    print("------------- Menu --------------"
             "\n Opção 01: Já tenho uma conta"
-            "\n Opção 02: Criar conta")
+            "\n Opção 02: Criar conta"
+            "\n Opcao 03: Sair")
     
     opcao = input("Digite a opção do seu atendimento: ")
 
@@ -47,26 +69,40 @@ while True:
 
         if login_nome == usuario[0] and login_agencia == conta[1] and int(login_numero_conta) == conta[0]:
 
-            print(
-            "------------- Menu Bancário --------------"
-            "\n Servico 01: Saque"
-            "\n Servico 02: Depósito"
-            "\n Servico 03: Extrato")
+            while True:
+                print(
+                "------------- Menu Bancário --------------"
+                "\n Servico 01: Saque"
+                "\n Servico 02: Depósito"
+                "\n Servico 03: Extrato"
+                "\n Servico 04: Sair")
 
-            servico = input("Digite o serviço que deseja: ")
 
-            if servico == "1":
-                print("saque")
-            
-            elif servico == "2":
-                print ("deposito")
-            
-            elif servico == "3":
-                print("extrato")
+                servico = input("Digite o serviço que deseja: ")
 
-            else:
-                print("Escolha um serviço válido")
-            
+                if servico == "1":
+                    saque = int(input("Quanto gostaria de sacar? "))
+                    saldo_conta(saque)
+                    
+
+                
+                elif servico == "2":
+                    deposito = int(input("Qual o valor que será depositado?"))
+                    deposito_conta(deposito)
+                    
+                elif servico == "3":
+                    print("----Extrato-----")
+                    print(f'Saldo: {saldo}')
+                    print(f'Deposito: {deposito}')
+                    print(f'Saque: {saque}')
+                
+                elif servico == "4":
+                    break   
+
+                else:
+                    print("Escolha um serviço válido")
+                    
+                
         else:
             print("Dados inválidos")
 
@@ -81,10 +117,12 @@ while True:
         print(f"Sua conta é {conta[0]}.")
         print(f"Sua Agência é {conta[1]}.")
         
-         
+    elif opcao == "3":
+        break
+
     else:
         print ("Escolha uma opção válida")
-        break
+        
 
 
 
